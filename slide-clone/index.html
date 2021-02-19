@@ -3,22 +3,108 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=`, initial-scale=1.0" />
-    <title>Quiz-Project</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz-1</title>
+    <script src="app.js"></script>
     <link rel="stylesheet" href="app.css" />
-    <script src="app.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>Quiz Prototype 01</h1>
-    </header>
+    <!-- <header>
+      <h1>Quiz App</h1>
+    </header> -->
     <main>
-      <section id="landing-page-container">
-        <div class="admin-login-container"></div>
-        <div class="user-play-container"></div>
+      <section id="quiz-landing-page" class="section-grid">
+        <div id="admin-login-container">
+          <h2>Login to create Quiz</h2>
+          <form id="admin-login-form" class="input-forms">
+            <div>
+              <label for="admin-username">Enter Username</label>
+              <input type="text" id="admin-username" />
+            </div>
+            <div>
+              <label for="admin-password">Enter Password</label>
+              <input type="password" id="admin-password" />
+            </div>
+            <div>
+              <button type="button" id="admin-login-button">Log In</button>
+            </div>
+          </form>
+        </div>
+        <div id="user-start-container">
+          <h2>Select a quiz and start answering</h2>
+          <form id="user-start-form" class="input-forms">
+            <div>
+              <label for="user-name"> Enter your name </label>
+              <input type="text" id="user-name" />
+            </div>
+            <div>
+              <label for="quiz-list-input">Available quizes:</label>
+              <select name="quiz-list" id="quiz-list-input">
+                <option value="">quiz1</option>
+                <option value="quizname or id">quiz2</option>
+                <option value="quizname or id">quiz3</option>
+                <option value="quizname or id">quiz4</option>
+                <option value="quizname or id">quiz5</option>
+              </select>
+            </div>
+            <div>
+              <button type="button" id="start-quiz-btn">Start!</button>
+            </div>
+          </form>
+        </div>
       </section>
-      <section id="create-quiz-container"></section>
-      <section id="answer-quiz-container"></section>
+      <section id="quiz-create-page" class="section-grid">
+        <div id="quiz-create-container">
+          <h2>Create a quiz</h2>
+          <form class="input-forms" id="create-quiz-form">
+            <div>
+              <label for="quiz-name-input">Enter Quiz Name</label>
+              <input type="text" id="quiz-name-input" />
+              <button type="button">Create Quiz</button>
+            </div>
+            <div>
+              <label for="question-text-input">Question text:</label>
+              <textarea
+                name=""
+                cols="40"
+                rows="2"
+                id="question-text-input"
+              ></textarea>
+            </div>
+            <div>
+              <label for="correct-answer-input"> Enter Correct Answer: </label>
+              <input
+                type="text"
+                id="correct-answer-input"
+                placeholder="max 1"
+              />
+              <button type="button" id="add-correct-btn">
+                Add Correct Answer
+              </button>
+            </div>
+            <div>
+              <label for="wrong-answer-input">Enter Incorrect Answer</label>
+              <input
+                type="text"
+                id="wrong-answer-input"
+                placeholder="min 1, max 9"
+              />
+              <button type="button">Add Wrong Answer</button>
+            </div>
+            <div>
+              <button type="button" id="add-question-btn">Add Question</button>
+              <button type="button" id="reset-question-btn">
+                Reset Question
+              </button>
+            </div>
+          </form>
+          <h2>Question preview</h2>
+          <div id="question-preview-box"></div>
+        </div>
+
+        <div id="question-list-container"></div>
+      </section>
+      <section id="quiz-play-page" class="section"></section>
     </main>
   </body>
 </html>
