@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz-1</title>
-    <script src="app.js"></script>
+    <script defer src="app.js"></script>
     <link rel="stylesheet" href="app.css" />
   </head>
   <body>
@@ -13,7 +13,7 @@
       <h1>Quiz App</h1>
     </header> -->
     <main>
-      <section id="quiz-landing-page" class="section-grid">
+      <section class="quiz-landing-page section-grid">
         <div id="admin-login-container">
           <h2>Login to create Quiz</h2>
           <form id="admin-login-form" class="input-forms">
@@ -25,6 +25,7 @@
               <label for="admin-password">Enter Password</label>
               <input type="password" id="admin-password" />
             </div>
+            <p id="admin-login-error"></p>
             <div>
               <button type="button" id="admin-login-button">Log In</button>
             </div>
@@ -53,14 +54,17 @@
           </form>
         </div>
       </section>
-      <section id="quiz-create-page" class="section-grid">
+      <section class="quiz-create-page section-grid">
         <div id="quiz-create-container">
+          <div class="admin-logout-container">
+            <p id="admin-username-display"></p>
+            <button type="button" id="admin-logout-btn">Log out</button>
+          </div>
           <h2>Create a quiz</h2>
           <form class="input-forms" id="create-quiz-form">
             <div>
               <label for="quiz-name-input">Enter Quiz Name</label>
               <input type="text" id="quiz-name-input" />
-              <button type="button">Create Quiz</button>
             </div>
             <div>
               <label for="question-text-input">Question text:</label>
@@ -79,7 +83,7 @@
                 placeholder="max 1"
               />
               <button type="button" id="add-correct-btn">
-                Add Correct Answer
+                Add Right Answer
               </button>
             </div>
             <div>
@@ -91,23 +95,61 @@
               />
               <button type="button">Add Wrong Answer</button>
             </div>
-            <div>
+          </form>
+          <h2>Question Preview</h2>
+          <div class="question-preview-container">
+            <div id="question-preview-box">
+              <p>What is the capital of KONGO and where did all the birds go</p>
+              <ol>
+                <li>Example of an answer</li>
+                <li>Example of an answer</li>
+                <li>Example of an answer</li>
+                <li>Example of an answer</li>
+                <li>Example of an answer</li>
+                <li>Example of an answer</li>
+                <li>Example of an answer</li>
+              </ol>
+            </div>
+            <div class="question-preview-btns">
               <button type="button" id="add-question-btn">Add Question</button>
               <button type="button" id="reset-question-btn">
                 Reset Question
               </button>
             </div>
-          </form>
-          <h2>Question preview</h2>
-          <div id="question-preview-box"></div>
+          </div>
         </div>
 
-        <div id="quiz-preview-container">
+        <div class="quiz-preview-container">
           <h2>Quiz Preview</h2>
-          <div id="quiz-preview-box"></div>
+          <div class="quiz-preview-box">
+            <div id="quiz-preview-display"></div>
+            <div class="quiz-preview-btns">
+              <button type="button" id="create-quiz-btn">Create Quiz</button>
+              <button type="button" id="reset-quiz-btn">Reset Quiz</button>
+            </div>
+          </div>
         </div>
       </section>
-      <section id="quiz-play-page" class="section"></section>
+      <section class="section quiz-play-page">
+        <h2 id="quiz-play-header">African Countries</h2>
+        <div class="answer-question-container">
+          <h2>Question: <span id="question-play-count">1/20</span></h2>
+          <div class="question-answer-box">
+            <div id="question-text-display">What is the capital of Kongo</div>
+            <div id="question-timer-display">30s</div>
+            <div id="question-timer-bar"></div>
+            <div id="question-answers-display">
+              <ol>
+                <li>Example Answer1</li>
+                <li>Example Answer1</li>
+                <li>Example Answer1</li>
+                <li>Example Answer1</li>
+              </ol>
+            </div>
+            <button type="buttons" id="quesiton-submit-btn">Submit</button>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>
