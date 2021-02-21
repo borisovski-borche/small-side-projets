@@ -1,19 +1,16 @@
-console.log("Functional");
-
-// [DOM SELECTORS]
-
 //dom selectors for the pages
 const quizLandingPage = document.querySelector(".quiz-landing-page");
 const quizCreatePage = document.querySelector(".quiz-create-page");
 const quizPlayPage = document.querySelector(".quiz-play-page");
 
 //admin login and logout
-const adminUsernameInput = document.querySelector("#admin-username");
-const adminPasswordInput = document.querySelector("#admin-password");
+const adminUsernameInput = document.querySelector("#admin-username-input");
+const adminPasswordInput = document.querySelector("#admin-password-input");
 const adminLoginError = document.querySelector("#admin-login-error");
-const adminLoginBtn = document.querySelector("#admin-login-button");
-const adminUsernameDisplay = document.querySelector("#admin-username-display");
-const adminLogoutBtn = document.querySelector("#admin-logout-btn");
+const adminLoginBtn = document.querySelector("#admin-login-btn");
+// const adminUsernameDisplay = document.querySelector("#admin-username-display");
+// const adminLogoutBtn = document.querySelector("#admin-logout-btn");
+
 //global data variables
 const admins = [];
 
@@ -34,34 +31,26 @@ class Admin {
 }
 admins.push(new Admin("boris", "12345", "Boris the Slav"));
 admins.push(new Admin("maya23", "asd", "Maya Raya"));
-//functions hiding the pages
-const hidePages = (show, hiddenPages) => {
-  hiddenPages.forEach(page => {
-    page.classList.add("hide-page");
-  });
-  show.classList.remove("hide-page");
-};
 
+//init
 hidePages(quizLandingPage, [quizCreatePage, quizPlayPage]);
-//function for cleaning inputs
-const cleanInputs = inputs => inputs.forEach(input => (input.value = ""));
 
 //[EVENT HANDLERS]
 
-//admin login and logout
+// admin login and logout
 adminLoginBtn.addEventListener("click", () => {
   const loggedInAdmin = admins.find(
     admin =>
       !!admin.validateAdmin(adminUsernameInput.value, adminPasswordInput.value)
   );
   if (loggedInAdmin) {
-    adminUsernameDisplay.innerText = `Welcome, ${loggedInAdmin.username}`;
+    // adminUsernameDisplay.innerText = `Welcome, ${loggedInAdmin.username}`;
     hidePages(quizCreatePage, [quizLandingPage, quizPlayPage]);
   } else {
-    adminLoginError.innerText = "Invalid Login";
+    adminLoginError.innerText = "Invalid Username or Password";
   }
   cleanInputs([adminUsernameInput, adminPasswordInput]);
 });
-adminLogoutBtn.addEventListener("click", () => {
-  hidePages(quizLandingPage, [quizCreatePage, quizPlayPage]);
-});
+// adminLogoutBtn.addEventListener("click", () => {
+//   hidePages(quizLandingPage, [quizCreatePage, quizPlayPage]);
+// });

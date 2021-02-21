@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Slido-Clone-Bulma</title>
+    <link rel="stylesheet" href="app.css" />
+    <script defer src="genralFunctions.js"></script>
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <main>
+      <section class="columns is-gapless quiz-landing-page">
+        <div class="column admin-login-container">
+          <div class="box">
+            <h2 class="is-size-3 is-centered block">Login to Create Quiz</h2>
+            <div class="field">
+              <label class="label" for="admin-username-input">Username</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="username"
+                  id="admin-username-input"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="admin-password-input">Password</label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="password"
+                  placeholder="Password"
+                  id="admin-password-input"
+                />
+              </div>
+              <p class="help is-danger" id="admin-login-error">
+              </p>
+            </div>
+            <div class="field">
+              <button class="button" id="admin-login-btn">Log in</button>
+            </div>
+          </div>
+        </div>
+        <div class="column player-login-container">
+          <div class="box">
+            <h2 class="is-size-3 is-centered block">Input name and select Quiz</h2>
+            <div class="field">
+              <label class="label" for="player-username-input">Player Name </label>
+              <div class="control">
+                <input
+                  class="input"
+                  type="text"
+                  placeholder="username"
+                  id="player-username-input"
+                />
+              </div>
+              <p class="help is-danger" id="player-login-error">
+                Player name must be atleast 4 characters long!
+              </p>
+            </div>
+            <div class= "box">
+                <ol>
+                    <li>
+                        African Countries <span>⭐⭐</span> 
+                        <p class="is-size-7">creator: "boris"</q>
+                    </li>
+                    <li>
+                        Basic Jscript Concepts <span>⭐⭐⭐⭐⭐</span>
+                        <p class="is-size-7">creator: "maya23"</q>
+                    </li>
+                </ol>
+            </div>
+              <div class="field">
+                <button class="button" id="player-start-btn">Start!</button>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </section>
+      <section class="columns quiz-create-page">
+        <div class="column"></div>
+        <div class="column"></div>
+      </section>
+      <section class="columns quiz-play-page"></section>
+    </main>
+  </body>
+</html>
