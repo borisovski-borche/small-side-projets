@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Slido-Clone-Bulma</title>
     <link rel="stylesheet" href="app.css" />
-    <script defer src="genralFunctions.js"></script>
-    <script defer src="app.js"></script>
+    <script src="https://kit.fontawesome.com/a8f6a016fe.js" crossorigin="anonymous"></script>
+    <script defer src="./scripts/genralFunctions.js"></script>
+    <script defer src="./scripts/app.js"></script>
   </head>
   <body>
     <main>
@@ -58,21 +59,11 @@
                   id="player-username-input"
                 />
               </div>
-              <p class="help is-danger" id="player-login-error">
-                Player name must be atleast 4 characters long!
+              <p class="help is-danger is-size-7 has-text-weight-semi-bold" id="player-login-error">
               </p>
             </div>
-            <div class= "box">
-                <ol>
-                    <li>
-                        African Countries <span>⭐⭐</span> 
-                        <p class="is-size-7">creator: "boris"</q>
-                    </li>
-                    <li>
-                        Basic Jscript Concepts <span>⭐⭐⭐⭐⭐</span>
-                        <p class="is-size-7">creator: "maya23"</q>
-                    </li>
-                </ol>
+            <div class="box">
+                <ol id="quiz-list-display"></ol>
             </div>
               <div class="field">
                 <button class="button" id="player-start-btn">Start!</button>
@@ -82,11 +73,153 @@
           </div>
         </div>
       </section>
-      <section class="columns quiz-create-page">
-        <div class="column"></div>
-        <div class="column"></div>
+      <section class="columns is-gapless quiz-create-page">
+        
+        <div class="column quiz-create-container">
+          
+          <div class="quiz-create-form box mb-3"> 
+            <div class="field columns">
+               <p class="has-text-weight-bold is-size-5 ml-3"><i class="fas fa-user is-size-5"></i> <span id="admin-username-display"></span> </p>
+              <button class="button is-danger is-size-7 ml-2" id="admin-logout-btn">Log out</button>
+            </div>
+            <div class="columns mb-0">
+            <div class="field column is-half mb-0">
+              <label class="label">Quiz Name</label>
+              <div class="control">
+                <input id="quiz-name-input" class="input" type="text" placeholder="Text input">
+              </div>
+              
+            </div>
+            <div class="field column is-half">
+              <p class="has-text-weight-bold">Select Difficulty</p>
+              <p id="quiz-select-stars" class="is-size-3">
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </p>
+            </div>
+          </div>
+            <div class="field">
+              <label class="label">Question Text</label>
+              <div class="control">
+                <input id="question-text-input" class="input" type="text" placeholder="text here">
+              </div>
+            </div>
+            <div class="columns">
+            <div class="column is-three-quarters">
+            <div class="field">
+              <label class="label">Create Answer</label>
+              <div class="control">
+                <input id="add-answer-input" class="input" type="text" placeholder="max 1 right, max 9 wrong">
+                </div>
+                <p class="help is-danger is-size-6 has-text-weight-bold" id="create-form-error"></p>
+              </div>
+              
+              <div class="field">
+                <button id="answer-add-right-btn" class="button is-success">Add Right Answer</button>
+                <button id="answer-add-wrong-btn" id="answer-reset-btn"  class="button is-danger">Add Wrong Answer</button>
+            </div>
+            
+          </div>
+          <div class="column is-one-quarter">
+            <div class="field">
+              <label class="label">Time to Answer</label>
+              <div class="control">
+                <input id="answer-time-input" class="input" type="number" placeholder="10-60s">
+              </div>
+            </div>
+          </div>
+          </div>
+          
+        </div>
+          <div class="box question-preview-container ">
+            <h2 class="is-size-5 has-text-weight-bold">Question Preview</h2>
+            <div class="box is-shadowless mb-0 question-preview-display">
+              <div class="box question-preview-box">
+              <p class="has-text-weight-bold is-size-6 mb-3">Q: <span id="question-preview-text"></span> </p>
+              <ol id="question-preview-list" class="pl-4">
+              </ol>
+              </div>
+            </div>
+            <div class="field question-buttons">
+              <p class="help is-danger is-size-6 has-text-weight-bold mb-3" id="create-question-error"></p>
+              <button id="add-question-btn" class="button is-success">Add Question</button>
+              <button id="reset-question-btn" class="button is-danger">Reset Question</button>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="column quiz-preview-container">
+          <div class="box quiz-preview-box">
+            <h2 class="is-size-5 has-text-weight-bold mb-0">Quiz Preview</h2>
+            <div class="column">
+              <h2 id="quiz-preview-name" class="is-size-4 has-text-centered mt-0 has-text-weight-semibold">Example Name</h2>
+              <p class="is-size-5 has-text-centered " id="quiz-preview-stars">
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </p>
+            </div>
+            <div id="quiz-preview-display" class="quiz-preview-list">
+          </div>
+          
+          <div class="field quiz-create-buttons">
+            <p class="help is-danger mb-2 is-size-6 has-text-weight-bold" id="create-quiz-error"></p>
+            <button id="quiz-create-btn" type="button" class="button is-success">Create Quiz</button>
+            <button id="quiz-reset-btn" type="button" class="button is-danger">Reset Quiz</button>
+          </div>
+          </div>
+        </div>
       </section>
-      <section class="columns quiz-play-page"></section>
+      <section class="quiz-play-page">
+        <div class="box answer-container">
+          <div class="box quiz-heading-box is-size-4 is-flex pt-0 is-justify-content-space-between mb-0 is-shadowless">
+            <p><i class="fas fa-user is-size-5"></i> John Doe</p>
+            <div>
+              <p class="is-size-3 has-text-weight-semibold">Elementary Math</p>
+              <p class="is-size-5 has-text-centered " id="quiz-preview-stars">
+                <i class="fas fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+                <i class="far fa-star"></i>
+              </p>
+            </div>
+            <p class="is-size-3">1/30</p>
+          </div>
+          <div class="box question-play-box px-0 py-0">
+            <div class="box is-size-5 is-flex is-justify-content-space-between is-align-items-baseline mb-0">
+                <p class="is-size-4 has-text-weight-semibold">Q: What is the capital of Poland</p> 
+              <p class="is-size-3"><i class="fas fa-stopwatch"></i> 30</p>
+            </div>
+            <progress class="progress is-radiusless is-success" value="40" max="100" ></progress>
+            <div class="ml-4 is-size-5 ">
+              <ol class="ml-4">
+                <li><div class="control is-size-5">
+                  <label class="radio">
+                    <input type="radio" name="answer">
+                    Example Answer 1
+                  </label></li>
+                <li><div class="control is-size-5">
+                  <label class="radio">
+                    <input type="radio" name="answer">
+                    Example Answer 1
+                  </label></li>
+                <li><div class="control is-size-5">
+                  <label class="radio">
+                    <input type="radio" name="answer">
+                    Example Answer 1
+                  </label></li>
+              </ol>
+            </div>
+            <button id="submit-answer-btn" class="button is-success">SUBMIT!</button>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>
