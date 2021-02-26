@@ -13,14 +13,14 @@
   <body>
     <main>
       <section class="columns is-gapless quiz-landing-page">
-        <div class="column admin-login-container">
+        <div class="column admin-login-container has-background-info">
           <div class="box">
             <h2 class="is-size-3 is-centered block">Login to Create Quiz</h2>
             <div class="field">
               <label class="label" for="admin-username-input">Username</label>
               <div class="control">
                 <input
-                  class="input"
+                  class="input is-info"
                   type="text"
                   placeholder="username"
                   id="admin-username-input"
@@ -32,7 +32,7 @@
               <label class="label" for="admin-password-input">Password</label>
               <div class="control">
                 <input
-                  class="input"
+                  class="input is-info"
                   type="password"
                   placeholder="Password"
                   id="admin-password-input"
@@ -42,18 +42,18 @@
               </p>
             </div>
             <div class="field">
-              <button class="button" id="admin-login-btn">Log in</button>
+              <button class="button is-info" id="admin-login-btn">Log in</button>
             </div>
           </div>
         </div>
-        <div class="column player-login-container">
+        <div class="column player-login-container has-background-primary">
           <div class="box">
             <h2 class="is-size-3 is-centered block">Input name and select Quiz</h2>
             <div class="field">
               <label class="label" for="player-username-input">Player Name </label>
               <div class="control">
                 <input
-                  class="input"
+                  class="input is-primary"
                   type="text"
                   placeholder="username"
                   id="player-username-input"
@@ -66,7 +66,7 @@
                 <ol id="quiz-list-display"></ol>
             </div>
               <div class="field">
-                <button class="button" id="player-start-btn">Start!</button>
+                <button class="button is-primary" id="player-start-btn">Start!</button>
               </div>
             </div>
           </div>
@@ -75,7 +75,7 @@
       </section>
       <section class="columns is-gapless quiz-create-page">
         
-        <div class="column quiz-create-container">
+        <div class="column quiz-create-container has-background-primary">
           
           <div class="quiz-create-form box mb-3"> 
             <div class="field columns">
@@ -175,48 +175,14 @@
           </div>
         </div>
       </section>
-      <section class="quiz-play-page">
+      <section class="quiz-play-page has-background-primary">
         <div class="box answer-container">
           <div class="box quiz-heading-box is-size-4 is-flex pt-0 is-justify-content-space-between mb-0 is-shadowless">
-            <p><i class="fas fa-user is-size-5"></i> John Doe</p>
-            <div>
-              <p class="is-size-3 has-text-weight-semibold">Elementary Math</p>
-              <p class="is-size-5 has-text-centered " id="quiz-preview-stars">
-                <i class="fas fa-star"></i>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
-                <i class="far fa-star"></i>
-              </p>
-            </div>
-            <p class="is-size-3">1/30</p>
           </div>
           <div class="box question-play-box px-0 py-0">
-            <div class="box is-size-5 is-flex is-justify-content-space-between is-align-items-baseline mb-0">
-                <p class="is-size-4 has-text-weight-semibold">Q: What is the capital of Poland</p> 
-              <p class="is-size-3"><i class="fas fa-stopwatch"></i> 30</p>
-            </div>
-            <progress class="progress is-radiusless is-success" value="40" max="100" ></progress>
-            <div class="ml-4 is-size-5 ">
-              <ol class="ml-4">
-                <li><div class="control is-size-5">
-                  <label class="radio">
-                    <input type="radio" name="answer">
-                    Example Answer 1
-                  </label></li>
-                <li><div class="control is-size-5">
-                  <label class="radio">
-                    <input type="radio" name="answer">
-                    Example Answer 1
-                  </label></li>
-                <li><div class="control is-size-5">
-                  <label class="radio">
-                    <input type="radio" name="answer">
-                    Example Answer 1
-                  </label></li>
-              </ol>
-            </div>
-            <button id="submit-answer-btn" class="button is-success">SUBMIT!</button>
+          </div>
+        </div>
+        <div class="modal" id="victory-modal">
           </div>
         </div>
       </section>

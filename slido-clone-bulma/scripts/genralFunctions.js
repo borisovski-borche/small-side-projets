@@ -12,7 +12,7 @@ const validateInputs = inputs => {
 const clearHTML = containers =>
   containers.forEach(container => (container.innerHTML = ""));
 
-const selectOnlyOne = (selected, elements, className) => {
-  elements.forEach(element => element.classList.remove(className));
-  selected.classList.add(className);
+const selectOnlyOne = (selected, elements, ...classes) => {
+  elements.forEach(element => element.classList.remove(...classes));
+  if (selected) selected.classList.add(...classes);
 };

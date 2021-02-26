@@ -1,10 +1,13 @@
 /* global css */
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css";
+
 :root {
+  --success: pink;
   --primarry-color-one: #118ab2;
   --primary-color-two: #06d6a0;
   --secondary-color-one: #073b4c;
   --secondary-color-two: #ffd166;
+  --green: black;
 }
 
 section {
@@ -17,20 +20,11 @@ section {
   display: grid;
   grid-template-columns: 1fr 7fr 1fr;
   grid-template-rows: 5fr 8fr 7fr;
-  background-color: var(--primarry-color-one);
 }
 .admin-login-container .box {
   grid-column: 2/3;
   grid-row: 2/3;
 }
-.admin-login-container button {
-  background-color: var(--primarry-color-one);
-  color: white;
-}
-.admin-login-container input {
-  border-color: var(--primarry-color-one);
-}
-
 .player-login-container {
   background-color: var(--primary-color-two);
   display: grid;
@@ -40,13 +34,6 @@ section {
 .player-login-container .box {
   grid-column: 2/3;
   grid-row: 2/3;
-}
-.player-login-container input {
-  border-color: var(--primary-color-two);
-}
-.player-login-container button {
-  background-color: var(--primary-color-two);
-  color: white;
 }
 .player-login-container ol {
   list-style: none;
@@ -61,7 +48,7 @@ section {
 }
 /* DYNAMIC */
 .selected-quiz {
-  background-color: var(--primary-color-two);
+  background-color: hsl(171, 100%, 41%);
   border-radius: 5px;
   border: 2px solid var(--primarry-color-one);
 }
@@ -173,7 +160,26 @@ section {
   width: auto;
   justify-self: center;
   padding: 23px;
+  background-color: var(--primary-color-two);
 }
 .question-play-box ol {
   list-style: none;
+}
+.answer-color {
+  color: lightgray;
+}
+.medal-icon {
+  font-size: 200px;
+}
+.gold-medal {
+  color: gold;
+}
+.silver-medal {
+  color: silver;
+}
+.bronze-medal {
+  color: coral;
+}
+.ribbon {
+  color: hsl(204, 86%, 53%);
 }
