@@ -155,6 +155,7 @@ section {
   grid-row: 2/3;
   display: grid;
   grid-template-rows: 2fr 0.5fr 9.1fr 1.8fr;
+  position: relative;
 }
 .question-play-box button {
   width: auto;
@@ -162,6 +163,17 @@ section {
   padding: 23px;
   background-color: var(--primary-color-two);
 }
+.go-btn-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .question-play-box ol {
   list-style: none;
 }

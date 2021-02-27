@@ -136,26 +136,26 @@ allQuizes.push(
         "What is the capital of Poland",
         "Warsaw",
         ["London", "Paris", "Madrid", "Warsaw"],
-        15
+        3
       ),
       new Question(
         "What is the capital of Slovenia",
         "Ljubljana",
         ["Zagreb", "Sarajevo", "Belgrade", "Ljubljana"],
-        15
+        3
       ),
       new Question(
         "What is the capital of Sweden",
         "Stockholm",
         ["Oslo", "Helsinki", "Stockholm", "Copenhagen"],
-        10
+        3
       ),
-      new Question("What is the capital of Portugal", "Lisbon", [
-        "Porto",
-        "Valencia",
+      new Question(
+        "What is the capital of Portugal",
         "Lisbon",
-        "Barcelona",
-      ]),
+        ["Porto", "Valencia", "Lisbon", "Barcelona"],
+        3
+      ),
     ],
     "maya23"
   )
@@ -168,8 +168,8 @@ allQuizes.push(
       new Question("What is 2+2", "4", ["3", "4", "5"], 15),
       new Question("What is 5+5", "10", ["8", "7", "10", "11"], 15),
       new Question("What is 10x15", "150", ["200", "175", "150", "225"], 10),
-      new Question("What is 7x8", "56", ["65", "56", "32", "80"]),
-      new Question("What is 2x2x2x2", "16", ["16", "18", "20", "22"]),
+      new Question("What is 7x8", "56", ["65", "56", "32", "80"], 15),
+      new Question("What is 2x2x2x2", "16", ["16", "18", "20", "22"], 15),
     ],
     "maya23"
   )
@@ -185,7 +185,7 @@ hidePages(quizLandingPage, [quizCreatePage, quizPlayPage]);
 const validateQuestion = (inputs, timerValue, answerList) => {
   if (
     !validateInputs(inputs) ||
-    Number(timerValue) < 10 ||
+    Number(timerValue) < 3 ||
     Number(timerValue) > 60 ||
     !answerList.find(el => el.classList.contains("right-answer")) ||
     answerList.length < 2
@@ -266,7 +266,7 @@ const renderQuizPreview = (questions, container) => {
       "beforeEnd",
       `<div class="box mb-2 question-preview-box">
         <button class="delete"></button> 
-        <p class= "is-size-5 stopwatch"><i class="fas fa-stopwatch"></i>: ${question.answerTime}</p> 
+        <p class= "is-size-5 stopwatch"><i class="fas fa-stopwatch"></i> : ${question.answerTime}</p> 
         <p class="has-text-weight-bold is-size-6">Q: ${question.content} </p> 
         <p class="has-text-success has-text-weight-bold">A: ${question.rightAnswer} <i class="fas fa-check"></i></p>
       </div>
@@ -295,12 +295,13 @@ const renderQuizHeader = (quiz, container, nameInput) => {
     document.querySelector("#quiz-header-stars")
   );
 };
-const renderQuestion = (question, container) => {
+const renderQuestion = (question, container, bool) => {
   clearHTML([container]);
+
   container.innerHTML = `
   <div class="box is-size-5 is-flex is-justify-content-space-between is-align-items-baseline mb-0">
       <p class="is-size-4 has-text-weight-semibold">Q: ${question.content}</p> 
-    <p class="is-size-3"><i class="fas fa-stopwatch"></i> ${question.answerTime}</p>
+    <p class="is-size-3"><i class="fas fa-stopwatch"></i><span class="question-countdown-box"> ${question.answerTime} </span></p>
   </div>
   <progress class="progress is-radiusless is-primary" value="0" max="100" ></progress>
   <div class="ml-4 is-size-5 ">
@@ -322,22 +323,30 @@ const renderQuestion = (question, container) => {
   });
   container.insertAdjacentHTML(
     "beforeEnd",
-    `<button class="submit-answer-btn button is-primary">SUBMIT!</button>`
+    `
+    <button class="submit-btn button is-size-4 is-primary">Submit</button>
+    <div class="go-btn-container box is-radiusless">
+    <button class="is-size-2 button is-info start-timer">BEGIN!</button>
+    </div>
+    `
   );
+  if (bool) container.querySelector(".go-btn-container").remove();
 };
 //
 const renderVictoryModal = (
   correctCount,
   totalQuestions,
   container,
-  playerName
+  playerName,
+  totalTime
 ) => {
   clearHTML([container]);
   container.innerHTML = `
           <div class="modal-background"></div>
               <div class="modal-content is-flex is-flex-direction-column is-align-items-center">
                 <div class="is-size-6 box has-text-centered px-5 py-5">
-                <div class="is-size-3 mb-3">Congratulations <span class="has-text-weight-bold is-size-2">${playerName}</span> you got <span class="has-text-weight-bold is-size-2 ">${correctCount}/${totalQuestions}</span> questions right and you receive a</div>
+                <div class="is-size-3 mb-3">Congratulations <span class="has-text-weight-bold is-size-2">${playerName}</span> your time is <span class="has-text-weight-bold is-size-2 ">${totalTime}s</span> and you guessed <span class="has-text-weight-bold is-size-2 ">${correctCount}/${totalQuestions}</span> questions right.
+                 Your reward is:</div>
                 <div><i class="medal-icon fas fa-medal"></i>
                 <p class="is-size-3 has-text-weight-bold mt-3 medal-title">BRONZE MEDAL</p></div>
                 </div>
@@ -364,14 +373,75 @@ const renderVictoryModal = (
 };
 //check answer
 const checkAnswer = (question, selectedAnswer) => {
-  if (question.rightAnswer === selectedAnswer) {
-    return true;
+  if (selectedAnswer) {
+    if (question.rightAnswer === selectedAnswer.value) {
+      return true;
+    }
+    return false;
   }
-  return false;
 };
+
+//question timer
+const questionTimer = (quiz, container, count, correctCount, totalTime) => {
+  let currTime;
+  container.querySelector(".submit-btn").disabled = true;
+  container.addEventListener("click", e => {
+    if (e.target.classList.contains("submit-btn")) {
+      currTime = quiz.questions[count].answerTime - countDown - 1;
+      e.target.disabled = true;
+    }
+  });
+  const progress = container.querySelector(".progress");
+  progress.max = quiz.questions[count].answerTime;
+  progress.value = 0;
+  let countDown = quiz.questions[count].answerTime;
+  progressInterval = setInterval(() => {
+    progress.value += 0.01;
+  }, 10);
+  countDownInterval = setInterval(() => {
+    countDown--;
+    container.querySelector(
+      ".question-countdown-box"
+    ).innerText = ` ${countDown}`;
+  }, 1000);
+  countDownTimer = setTimeout(() => {
+    const rightAnswer = checkAnswer(
+      selectedQuiz.questions[count],
+      [...container.querySelectorAll(".radio-input")].find(
+        radio => radio.checked === true
+      )
+    );
+    if (rightAnswer) correctCount++;
+    console.log(correctCount);
+    renderAnswerColors(selectedQuiz.questions[count], [
+      ...questionPlayBox.querySelectorAll(".radio-input"),
+    ]);
+    progress.value = quiz.questions[count].answerTime;
+    clearInterval(countDownInterval);
+    setTimeout(() => {
+      progress.value = 0;
+      countDown = quiz.questions[count].answerTime;
+      if (count === selectedQuiz.questions.length - 1) {
+        renderVictoryModal(
+          correctCount,
+          selectedQuiz.questions.length,
+          victoryModal,
+          playerUsernameInput.value,
+          totalTime
+        );
+        victoryModal.classList.add("is-active");
+        return;
+      }
+      totalTime += currTime;
+      count++;
+      playQuiz(selectedQuiz, count, true);
+      questionTimer(quiz, container, count, correctCount, totalTime);
+    }, 1000);
+  }, quiz.questions[count].answerTime * 1000);
+};
+
+//render answer colors
 const renderAnswerColors = (question, displayedAnswers) => {
-  console.log(question);
-  console.log(displayedAnswers);
   const selectedAnswer = displayedAnswers.find(radio => radio.checked === true);
   const rightAnswer = displayedAnswers.find(
     radio => radio.value === question.rightAnswer
@@ -383,7 +453,7 @@ const renderAnswerColors = (question, displayedAnswers) => {
     .closest("label")
     .insertAdjacentHTML("beforeEnd", ` <i class="fas fa-check"></i>`);
 
-  if (selectedAnswer.value !== question.rightAnswer) {
+  if (selectedAnswer && selectedAnswer.value !== question.rightAnswer) {
     selectedAnswer
       .closest("label")
       .classList.add("has-text-weight-bold", "has-text-danger");
@@ -403,11 +473,11 @@ const resetQuizCreate = () => {
 };
 
 //umbrella function for playing the quiz
-const playQuiz = (quiz, count) => {
+const playQuiz = (quiz, count, bool) => {
   document.querySelector("#questions-counter-display").innerText = `${
     count + 1
   }/${quiz.questions.length}`;
-  renderQuestion(quiz.questions[count], questionPlayBox);
+  renderQuestion(quiz.questions[count], questionPlayBox, bool);
 };
 
 //[EVENT HANDLERS]
@@ -462,7 +532,7 @@ const userSelectQuizHandlers = () => {
       document.querySelector(".quiz-heading-box"),
       playerUsernameInput.value
     );
-    playQuiz(selectedQuiz, 0);
+    playQuiz(selectedQuiz, 0, false);
   });
 };
 
@@ -586,36 +656,21 @@ const quizCreateHandlers = () => {
 const playQuizHandlers = () => {
   let count = 0;
   let correctCount = 0;
-  let rightAnswer;
+  let totalTime = 0;
+
   questionPlayBox.addEventListener("click", e => {
-    if (e.target.classList.contains("submit-answer-btn")) {
-      if (rightAnswer) correctCount++;
-
-      renderAnswerColors(selectedQuiz.questions[count], [
-        ...questionPlayBox.querySelectorAll(".radio-input"),
-      ]);
-
-      if (count === selectedQuiz.questions.length - 1) {
-        setTimeout(() => {
-          renderVictoryModal(
-            correctCount,
-            selectedQuiz.questions.length,
-            victoryModal,
-            playerUsernameInput.value
-          );
-        }, 1000);
-        victoryModal.classList.add("is-active");
-        return;
-      }
-      count++;
-      questionPlayBox.querySelector(".submit-answer-btn").disabled = true;
-      setTimeout(() => {
-        playQuiz(selectedQuiz, count);
-        questionPlayBox.querySelector(".submit-answer-btn").disabled = false;
-      }, 1500);
+    if (e.target.classList.contains("start-timer")) {
+      questionTimer(
+        selectedQuiz,
+        questionPlayBox,
+        count,
+        correctCount,
+        totalTime
+      );
+      e.target.closest(".go-btn-container").style.display = "none";
     }
     if (e.target.classList.contains("radio-input")) {
-      rightAnswer = checkAnswer(selectedQuiz.questions[count], e.target.value);
+      questionPlayBox.querySelector(".submit-btn").disabled = false;
       selectOnlyOne(
         e.target.closest("label"),
         questionPlayBox.querySelectorAll("label"),
