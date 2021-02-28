@@ -58,12 +58,7 @@ const submitAnswerBtn = document.querySelector("#submit-answer-btn");
 //containers
 const questionPlayBox = document.querySelector(".question-play-box");
 const victoryModal = document.querySelector("#victory-modal");
-//[DATA ARRAYS]
 
-const admins = [];
-const allQuizes = [];
-let tempQuestions = [];
-let selectedQuiz;
 //[CLASSES]
 
 //ADMINS
@@ -81,9 +76,6 @@ class Admin {
       : false;
   }
 }
-//creating 2 working admins
-admins.push(new Admin("boris", "12345", "Boris the Slav"));
-admins.push(new Admin("maya23", "asd", "Maya Raya"));
 
 //QUESTION
 class Question {
@@ -105,81 +97,9 @@ class Quiz {
   }
 }
 
-//creating 2 quiz for start
-allQuizes.push(
-  new Quiz(
-    "Basic Math",
-    5,
-    [
-      new Question("What is 2+2", "4", ["3", "4", "5"], 15),
-      new Question("What is 5+5", "10", ["8", "7", "10", "11"], 15),
-      new Question("What is 10x15", "150", ["200", "175", "150", "225"], 10),
-      new Question("What is 7x8", "56", ["65", "56", "32", "80"], 10),
-      new Question("What is 2x2x2x2", "16", ["16", "18", "20", "22"], 10),
-      new Question(
-        "What is 60+60-50+60",
-        "160",
-        ["150", "160", "200", "250"],
-        10
-      ),
-      new Question("What is 9x19", "171", ["171", "180", "175", "199"], 10),
-    ],
-    "boris"
-  )
-);
-allQuizes.push(
-  new Quiz(
-    "Europe Capitals",
-    4,
-    [
-      new Question(
-        "What is the capital of Poland",
-        "Warsaw",
-        ["London", "Paris", "Madrid", "Warsaw"],
-        3
-      ),
-      new Question(
-        "What is the capital of Slovenia",
-        "Ljubljana",
-        ["Zagreb", "Sarajevo", "Belgrade", "Ljubljana"],
-        3
-      ),
-      new Question(
-        "What is the capital of Sweden",
-        "Stockholm",
-        ["Oslo", "Helsinki", "Stockholm", "Copenhagen"],
-        3
-      ),
-      new Question(
-        "What is the capital of Portugal",
-        "Lisbon",
-        ["Porto", "Valencia", "Lisbon", "Barcelona"],
-        3
-      ),
-    ],
-    "maya23"
-  )
-);
-allQuizes.push(
-  new Quiz(
-    "Basic Math",
-    3,
-    [
-      new Question("What is 2+2", "4", ["3", "4", "5"], 15),
-      new Question("What is 5+5", "10", ["8", "7", "10", "11"], 15),
-      new Question("What is 10x15", "150", ["200", "175", "150", "225"], 10),
-      new Question("What is 7x8", "56", ["65", "56", "32", "80"], 15),
-      new Question("What is 2x2x2x2", "16", ["16", "18", "20", "22"], 15),
-    ],
-    "maya23"
-  )
-);
-//init
-// hidePages(quizPlayPage, [quizCreatePage, quizLandingPage]);
-
-hidePages(quizLandingPage, [quizCreatePage, quizPlayPage]);
-
 //[FUNCTIONS]
+
+//[Validating Functions]
 
 //validating a question before adding it
 const validateQuestion = (inputs, timerValue, answerList) => {
@@ -219,12 +139,10 @@ const validateQuizSelect = (playerName, elements, errorMsg) => {
   return true;
 };
 
-//creating a new quiz;
-
 //display difficulty
 const displayDifficulty = (num, container) => {
   [...container.children]
-    .filter((_, i) => i > num)
+    .filter((_, i) => i > num - 1)
     .forEach(el => el.classList.remove("fas"));
   [...container.children]
     .filter((_, i) => i < num)
@@ -257,6 +175,8 @@ const renderQuizList = (quizesArr, container) => {
     );
   });
 };
+
+//[Rendering Functions]
 
 //rendering the quiz-preview box
 const renderQuizPreview = (questions, container) => {
@@ -371,6 +291,31 @@ const renderVictoryModal = (
   }
   // const
 };
+//render answer colors
+const renderAnswerColors = (question, displayedAnswers) => {
+  const selectedAnswer = displayedAnswers.find(radio => radio.checked === true);
+  const rightAnswer = displayedAnswers.find(
+    radio => radio.value === question.rightAnswer
+  );
+  rightAnswer
+    .closest("label")
+    .classList.add("has-text-weight-bold", "has-text-success");
+  rightAnswer
+    .closest("label")
+    .insertAdjacentHTML("beforeEnd", ` <i class="fas fa-check"></i>`);
+
+  if (selectedAnswer && selectedAnswer.value !== question.rightAnswer) {
+    selectedAnswer
+      .closest("label")
+      .classList.add("has-text-weight-bold", "has-text-danger");
+    selectedAnswer
+      .closest("label")
+      .insertAdjacentHTML("beforeEnd", ` <i class="fas fa-times-circle"></i>`);
+  }
+};
+
+//[Quiz playing logic functions]
+
 //check answer
 const checkAnswer = (question, selectedAnswer) => {
   if (selectedAnswer) {
@@ -383,11 +328,11 @@ const checkAnswer = (question, selectedAnswer) => {
 
 //question timer
 const questionTimer = (quiz, container, count, correctCount, totalTime) => {
-  let currTime;
+  let currTime = quiz.questions[count].answerTime;
   container.querySelector(".submit-btn").disabled = true;
   container.addEventListener("click", e => {
     if (e.target.classList.contains("submit-btn")) {
-      currTime = quiz.questions[count].answerTime - countDown - 1;
+      currTime = quiz.questions[count].answerTime - (countDown - 1);
       e.target.disabled = true;
     }
   });
@@ -412,7 +357,6 @@ const questionTimer = (quiz, container, count, correctCount, totalTime) => {
       )
     );
     if (rightAnswer) correctCount++;
-    console.log(correctCount);
     renderAnswerColors(selectedQuiz.questions[count], [
       ...questionPlayBox.querySelectorAll(".radio-input"),
     ]);
@@ -421,6 +365,7 @@ const questionTimer = (quiz, container, count, correctCount, totalTime) => {
     setTimeout(() => {
       progress.value = 0;
       countDown = quiz.questions[count].answerTime;
+      totalTime += currTime;
       if (count === selectedQuiz.questions.length - 1) {
         renderVictoryModal(
           correctCount,
@@ -432,35 +377,12 @@ const questionTimer = (quiz, container, count, correctCount, totalTime) => {
         victoryModal.classList.add("is-active");
         return;
       }
-      totalTime += currTime;
       count++;
+
       playQuiz(selectedQuiz, count, true);
       questionTimer(quiz, container, count, correctCount, totalTime);
-    }, 1000);
+    }, 1200);
   }, quiz.questions[count].answerTime * 1000);
-};
-
-//render answer colors
-const renderAnswerColors = (question, displayedAnswers) => {
-  const selectedAnswer = displayedAnswers.find(radio => radio.checked === true);
-  const rightAnswer = displayedAnswers.find(
-    radio => radio.value === question.rightAnswer
-  );
-  rightAnswer
-    .closest("label")
-    .classList.add("has-text-weight-bold", "has-text-success");
-  rightAnswer
-    .closest("label")
-    .insertAdjacentHTML("beforeEnd", ` <i class="fas fa-check"></i>`);
-
-  if (selectedAnswer && selectedAnswer.value !== question.rightAnswer) {
-    selectedAnswer
-      .closest("label")
-      .classList.add("has-text-weight-bold", "has-text-danger");
-    selectedAnswer
-      .closest("label")
-      .insertAdjacentHTML("beforeEnd", ` <i class="fas fa-times-circle"></i>`);
-  }
 };
 
 //reset create page
@@ -605,7 +527,7 @@ const questionAddHandlers = () => {
   resetQuestionBtn.addEventListener("click", () => {
     cleanInputs([questionTextInput, answerTimeInput]);
     clearHTML([questionPreviewList, questionPreviewText]);
-    answerRightBtn.disabled = true;
+    answerRightBtn.disabled = false;
   });
 };
 //adding listeners for the quiz preview
@@ -691,8 +613,94 @@ const playQuizHandlers = () => {
   });
 };
 
-renderQuizList(allQuizes, quizListDisplay);
+//initialising app
 
+//[DATA ARRAYS]
+
+const admins = [];
+const allQuizes = [];
+let tempQuestions = [];
+let selectedQuiz;
+
+//creating 2 working admins
+admins.push(new Admin("boris", "12345", "Boris the Slav"));
+admins.push(new Admin("maya23", "asd", "Maya Raya"));
+
+//creating some quizes
+//creating 2 quiz for start
+allQuizes.push(
+  new Quiz(
+    "Basic Math",
+    5,
+    [
+      new Question("What is 2+2", "4", ["3", "4", "5"], 15),
+      new Question("What is 5+5", "10", ["8", "7", "10", "11"], 15),
+      new Question("What is 10x15", "150", ["200", "175", "150", "225"], 10),
+      new Question("What is 7x8", "56", ["65", "56", "32", "80"], 10),
+      new Question("What is 2x2x2x2", "16", ["16", "18", "20", "22"], 10),
+      new Question(
+        "What is 60+60-50+60",
+        "160",
+        ["150", "160", "200", "250"],
+        10
+      ),
+      new Question("What is 9x19", "171", ["171", "180", "175", "199"], 10),
+    ],
+    "boris"
+  )
+);
+allQuizes.push(
+  new Quiz(
+    "Europe Capitals",
+    4,
+    [
+      new Question(
+        "What is the capital of Poland",
+        "Warsaw",
+        ["London", "Paris", "Madrid", "Warsaw"],
+        3
+      ),
+      new Question(
+        "What is the capital of Slovenia",
+        "Ljubljana",
+        ["Zagreb", "Sarajevo", "Belgrade", "Ljubljana"],
+        3
+      ),
+      new Question(
+        "What is the capital of Sweden",
+        "Stockholm",
+        ["Oslo", "Helsinki", "Stockholm", "Copenhagen"],
+        3
+      ),
+      new Question(
+        "What is the capital of Portugal",
+        "Lisbon",
+        ["Porto", "Valencia", "Lisbon", "Barcelona"],
+        3
+      ),
+    ],
+    "boris"
+  )
+);
+allQuizes.push(
+  new Quiz(
+    "Basic Math",
+    3,
+    [
+      new Question("What is 2+2", "4", ["3", "4", "5"], 15),
+      new Question("What is 5+5", "10", ["8", "7", "10", "11"], 15),
+      new Question("What is 10x15", "150", ["200", "175", "150", "225"], 10),
+      new Question("What is 7x8", "56", ["65", "56", "32", "80"], 15),
+      new Question("What is 2x2x2x2", "16", ["16", "18", "20", "22"], 15),
+    ],
+    "maya23"
+  )
+);
+
+//calling all functions
+
+hidePages(quizLandingPage, [quizCreatePage, quizPlayPage]);
+renderQuizList(allQuizes, quizListDisplay);
 adminLoginHandlers();
 userSelectQuizHandlers();
 questionAddHandlers();
