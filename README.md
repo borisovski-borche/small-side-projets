@@ -1,2 +1,5 @@
 # side-projects
-repo for all the side projects i'm working on/have completed
+
+repo for small side projects, mostly done in vanilla
+
+the purpose of this repo is to archive them online
