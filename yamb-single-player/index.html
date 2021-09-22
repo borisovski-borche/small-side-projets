@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yamb Prototype 001</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Yamb</h1>
+    </header>
+    <main>
+      <section class="dice-container">
+        <div class="dice-block"></div>
+        <img src="./images/dice-1.png" class="dice-img" alt="" />
+        <img src="./images/dice-1.png" class="dice-img" alt="" />
+        <img src="./images/dice-1.png" class="dice-img" alt="" />
+        <img src="./images/dice-1.png" class="dice-img" alt="" />
+        <img src="./images/dice-1.png" class="dice-img" alt="" />
+      </section>
+      <section class="score-container">
+        <div>
+          <div class="msg-box">
+            <p>Tries Left:</p>
+            <p id="roll-display-count"></p>
+          </div>
+          <div class="player-inputs">
+            <button id="btn-roll">Roll</button>
+            <button id="btn-hold">Hold</button>
+          </div>
+        </div>
+        <div class="table-container">
+          <div class="table-block"></div>
+          <table id="game-table"></table>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>

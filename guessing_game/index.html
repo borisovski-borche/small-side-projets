@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <main class="mainDisplay">
+      <header class="topMenu">
+        <button id="reset">Again!</button>
+        <p>(Between 1-20)</p>
+      </header>
+      <section class="correctDisplay">
+        <h1>GUESS THE NUMBER</h1>
+        <div id="correctNumber">?</div>
+      </section>
+      <section class="gameContainer">
+        <div class="gameBox">
+          <div class="numberDisplay">
+            <input
+              type="number"
+              id="numberInput"
+              class="bgInput"
+              min="1"
+              max="20"
+              maxlength="2"
+            />
+          </div>
+          <button id="checkNumber">CHECK!</button>
+        </div>
+        <div class="resultBox">
+          <p id="guessText">Start Guessing...</p>
+          <div>
+            <p class="scoreBoxes">💯 Score: <span id="currScore"></span></p>
+            <p class="scoreBoxes">🥇 Highscore: <span id="highScore"></span></p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
